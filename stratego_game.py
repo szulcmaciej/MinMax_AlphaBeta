@@ -13,7 +13,6 @@ class Game:
         self.board = np.zeros((board_size, board_size))
         self.p1 = player1
         self.p2 = player2
-        # if p1 == None (p1 is human)
 
         self.game_over = False
         self.player_one_moving = True
@@ -108,13 +107,68 @@ class Game:
         self.game_over = np.all(np.all(self.board))
 
 
+def get_possible_moves(board):
+    moves = []
 
-#
-# # p1 = HumanPlayer('p1')
-# p1 = RandomPlayer('p1')
-# p2 = RandomPlayer('p2')
-# g = Game(8, p1, p2)
-#
+    zeros_true = board == 0
+    coords = np.nonzero(zeros_true)
+
+    for i in range(len(coords[0])):
+        moves.append((coords[0][i], coords[1][i]))
+
+    return moves
+
+
+def calculate_points(board, move):
+    """
+
+    :param board: Board before the move
+    :param move: Move coordinates tuple
+    :return: Points for the move
+    """
+    points = 0
+    x = move[0]
+    y = move[1]
+    BOARD_SIZE = board.shape[0]
+
+    # move
+    if board[x, y] == 0:
+        board[x, y] = 3
+    else:
+        # bad move
+        return -1
+
+    # row
+    if np.all(board[x, :]):
+        points += BOARD_SIZE
+
+    # column
+    if np.all(board[:, y]):
+        points += BOARD_SIZE
+
+    # 1st diagonal
+    k = y - x
+    diagonal = np.diag(board, k)
+    if np.all(diagonal) and len(diagonal) > 1:
+        points += len(diagonal)
+
+    # 2nd diagonal
+    new_y = (BOARD_SIZE - 1) - y
+    k = new_y - x
+    diagonal = np.diag(np.fliplr(board), k)
+    if np.all(diagonal) and len(diagonal) > 1:
+        points += len(diagonal)
+
+    return points
+
+
+p1 = HumanPlayer('p1')
+# p2 = HumanPlayer('p2')
+p2 = RandomPlayer('p2')
+g = Game(7, p1, p2)
+g.play()
+
+
 # player1_wins = []
 # # print(0, end='')
 # for i in range(1000):
@@ -126,22 +180,22 @@ class Game:
 #
 # print()
 # print(sum(player1_wins) / len(player1_wins) * 100, '%')
+
+
+
+# for j in range(2,21):
+#     # p1 = HumanPlayer('p1')
+#     p1 = RandomPlayer('p1')
+#     p2 = RandomPlayer('p2')
+#     g = Game(j, p1, p2)
 #
-
-
-for j in range(2,21):
-    # p1 = HumanPlayer('p1')
-    p1 = RandomPlayer('p1')
-    p2 = RandomPlayer('p2')
-    g = Game(j, p1, p2)
-
-    player1_wins = []
-    # print(0, end='')
-    for i in range(1000):
-        player1_wins.append(g.play())
-
-        # sys.stdout.write("\r%d%%" % (i / 10 * 100))
-        # sys.stdout.flush()
-
-    print('board: ', j)
-    print(sum(player1_wins) / len(player1_wins) * 100, '%')
+#     player1_wins = []
+#     # print(0, end='')
+#     for i in range(1000):
+#         player1_wins.append(g.play())
+#
+#         # sys.stdout.write("\r%d%%" % (i / 10 * 100))
+#         # sys.stdout.flush()
+#
+#     print('board: ', j)
+#     print(sum(player1_wins) / len(player1_wins) * 100, '%')
