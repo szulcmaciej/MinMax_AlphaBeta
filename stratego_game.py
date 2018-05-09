@@ -30,8 +30,8 @@ class Game:
             # one loop for one move of one player
             self.game_loop()
             # print points
-            # print('p1 points: ', str(self.p1_points))
-            # print('p2 points: ', str(self.p2_points))
+            print('p1 points: ', str(self.p1_points))
+            print('p2 points: ', str(self.p2_points))
 
         # print('Game over')
 
@@ -87,7 +87,7 @@ class Game:
             if self.player_one_moving:
                 if self.p1 is not None:
                     # p1 is not human
-                    x, y = self.p1.play(self.board)
+                    x, y = self.p1.play(self.board.copy())
                 else:
                     # p1 is human
                     # x, y = ...
@@ -96,7 +96,7 @@ class Game:
             else:
                 # p2 is moving
                 if self.p2 is not None:
-                    x, y = self.p2.play(self.board)
+                    x, y = self.p2.play(self.board.copy())
                 else:
                     pass
                 player_moved = self.move(2, x, y)
@@ -126,6 +126,8 @@ def calculate_points(board, move):
     :param move: Move coordinates tuple
     :return: Points for the move
     """
+    board = board.copy()
+
     points = 0
     x = move[0]
     y = move[1]
@@ -162,11 +164,13 @@ def calculate_points(board, move):
     return points
 
 
-p1 = HumanPlayer('p1')
-# p2 = HumanPlayer('p2')
-p2 = RandomPlayer('p2')
-g = Game(7, p1, p2)
-g.play()
+if __name__ == '__main__':
+    p1 = HumanPlayer('p1')
+    # p2 = HumanPlayer('p2')
+    p2 = RandomPlayer('p2')
+    g = Game(3, p1, p2)
+    g.play()
+
 
 
 # player1_wins = []

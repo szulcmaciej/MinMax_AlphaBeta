@@ -12,4 +12,12 @@ class HumanPlayer(Player):
         x = int(input('X: '))
         y = int(input('Y: '))
 
+        while (x < 0 or x > board.shape[0] - 1) or (y < 0 or y > board.shape[0]):
+            print()
+            print('Bad input!')
+            print(self.name)
+            print(board)
+            x = int(input('X: '))
+            y = int(input('Y: '))
+
         return x, y
