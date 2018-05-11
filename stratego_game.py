@@ -8,16 +8,21 @@ from players.random_player import RandomPlayer
 
 
 class Game:
-    def __init__(self, board_size=8, player1=None, player2=None):
+    def __init__(self, board_size=8, player1=None, player2=None, verbose=False):
         self.BOARD_SIZE = board_size
         self.board = np.zeros((board_size, board_size))
         self.p1 = player1
         self.p2 = player2
+        self.verbose = verbose
 
         self.game_over = False
         self.player_one_moving = True
         self.p1_points = 0
         self.p2_points = 0
+        self.p1_move_count = 0
+        self.p2_move_count = 0
+        self.p1_time = 0
+        self.p2_time = 0
 
     def play(self, player_one_staring=True):
         self.board = np.zeros((self.BOARD_SIZE, self.BOARD_SIZE))
@@ -25,17 +30,26 @@ class Game:
         self.player_one_moving = player_one_staring
         self.p1_points = 0
         self.p2_points = 0
+        self.p1_move_count = 0
+        self.p2_move_count = 0
+        self.p1_time = 0
+        self.p2_time = 0
 
         while not self.game_over:
             # one loop for one move of one player
             self.game_loop()
-            # print points
-            print('p1 points: ', str(self.p1_points))
-            print('p2 points: ', str(self.p2_points))
 
-        # print('Game over')
+            if self.verbose:
+                print('p1 points: ', str(self.p1_points))
+                print('p2 points: ', str(self.p2_points))
 
-        return self.p1_points > self.p2_points
+        if self.verbose:
+            print('Game over')
+
+        p1_avg_move_time = self.p1_time / self.p1_move_count
+        p2_avg_move_time = self.p2_time / self.p2_move_count
+
+        return self.p1_points, self.p2_points, p1_avg_move_time, p2_avg_move_time
 
     def move(self, player_id, x, y):
         if self.board[x, y] == 0:
@@ -87,7 +101,10 @@ class Game:
             if self.player_one_moving:
                 if self.p1 is not None:
                     # p1 is not human
+                    start_time = time.time()
                     x, y = self.p1.play(self.board.copy())
+                    self.p1_time += time.time() - start_time
+                    self.p1_move_count += 1
                 else:
                     # p1 is human
                     # x, y = ...
@@ -96,7 +113,10 @@ class Game:
             else:
                 # p2 is moving
                 if self.p2 is not None:
+                    start_time = time.time()
                     x, y = self.p2.play(self.board.copy())
+                    self.p2_time += time.time() - start_time
+                    self.p2_move_count += 1
                 else:
                     pass
                 player_moved = self.move(2, x, y)

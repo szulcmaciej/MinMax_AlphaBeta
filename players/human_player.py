@@ -8,7 +8,7 @@ class HumanPlayer(Player):
     def play(self, board):
         print()
         print(self.name)
-        print(board)
+        print(str(board).replace('0', ' ').replace('1.', ' 1').replace('2.', ' 2'))
         x = int(input('X: '))
         y = int(input('Y: '))
 
