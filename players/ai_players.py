@@ -4,6 +4,7 @@ from players.player import Player
 import numpy as np
 import math
 import stratego_game
+import random
 
 
 class MinMaxPlayer(Player):
@@ -212,12 +213,21 @@ class HeuristicAlphaBetaPlayer(Player):
                   alpha=-math.inf, beta=math.inf):
 
         possible_moves = self.get_possible_moves(board)
+
+        # # poglebianie
+        # if len(possible_moves) == (board.shape[0] * board.shape[1] - board.shape[0] * board.shape[1] % 2) // 2:
+        #     levels_remaining += 1
+
         if len(possible_moves) < levels_remaining + 1:
             levels_remaining = len(possible_moves) - 1
 
         # heuristics
-        # possible_moves.sort(key=lambda move: eval_function_points(board, move, maximize))
 
+        # sort by current points
+        possible_moves.sort(key=lambda move: eval_function_points(board, move, maximize))
+
+        # shuffle
+        random.shuffle(possible_moves)
 
         best_move = None
         if maximize:

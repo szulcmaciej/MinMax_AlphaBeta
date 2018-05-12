@@ -26,10 +26,12 @@ def analyse_results(results):
     print('Avg P2 move time: ', averages[3])
 
 
-p1 = AlphaBetaPlayer('alfabeta1', 4)
-p2 = RandomPlayer('alfabeta1')
+p1 = AlphaBetaPlayer('alfabeta1', 3)
+p2 = AlphaBetaPlayer('alfabeta1', 2)
+# p2 = RandomPlayer('alfabeta1')
 
-game = Game(8, p1, p2)
+game = Game(8, p1, p2, verbose=True)
+# game = Game(8, p1, p2)
 
 results = []
 for i in range(1):
@@ -42,11 +44,3 @@ analyse_results(results)
 
 
 # cProfile.run('game.play()', sort='tottime')
-
-
-
-
-
-# results = [(15, 30), (20, 25), (25, 20), (20, 20), (35, 20)]
-# analyse_results(results)
-# # print(np.array(results))

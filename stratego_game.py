@@ -40,6 +40,7 @@ class Game:
             self.game_loop()
 
             if self.verbose:
+                print(str(self.board).replace('0', ' ').replace('1.', ' 1').replace('2.', ' 2'))
                 print('p1 points: ', str(self.p1_points))
                 print('p2 points: ', str(self.p2_points))
 
