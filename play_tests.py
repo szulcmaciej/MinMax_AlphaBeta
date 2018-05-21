@@ -1,6 +1,6 @@
 from stratego_game import Game
 from players.human_player import HumanPlayer
-from players.ai_players import MinMaxPlayer, AlphaBetaPlayer, HeuristicAlphaBetaPlayer, AlphaBetaPlayerWithCentr
+from players.ai_players import MinMaxPlayer, AlphaBetaPlayer, HeuristicAlphaBetaPlayer, AlphaBetaPlayerWithCentralization
 from players.random_player import RandomPlayer
 
 import math

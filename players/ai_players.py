@@ -289,7 +289,7 @@ class HeuristicAlphaBetaPlayer(Player):
         return best_move, best_value
 
 
-class AlphaBetaPlayerWithCentr(Player):
+class AlphaBetaPlayerWithCentralization(Player):
     def __init__(self, name, levels=3):
         Player.__init__(self, name)
         self.levels = levels

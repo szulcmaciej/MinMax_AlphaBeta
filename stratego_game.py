@@ -1,8 +1,6 @@
 import numpy as np
 import time
 
-import sys
-
 from players.human_player import HumanPlayer
 from players.random_player import RandomPlayer
 
